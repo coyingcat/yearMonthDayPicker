@@ -21,8 +21,11 @@
 #define bottom_height (isiPhoneX ? 34.f : 10.f)
 
 
-#define MAXYEAR 2099
-#define MINYEAR 1900
+ 
+ #define MAXYEAR 2030
+ #define MINYEAR 2021
+ 
+ 
 
 typedef void(^doneBlock)(NSDate *);
 
@@ -281,9 +284,9 @@ typedef void(^doneBlock)(NSDate *);
     
     NSInteger yearNum = _yearArray.count;
     NSInteger monthNum = _monthArray.count;
-    NSInteger dayNum = [self DaysfromYear:[_yearArray[yearIndex] integerValue] andMonth:[_monthArray[monthIndex] integerValue]];
+    NSInteger dayNum = [self daysfromYear:[_yearArray[yearIndex] integerValue] andMonth:[_monthArray[monthIndex] integerValue]];
     
-    NSInteger dayNum2 = [self DaysfromYear:[_yearArray[yearIndex] integerValue] andMonth:1];//确保可以选到31日
+    NSInteger dayNum2 = [self daysfromYear:[_yearArray[yearIndex] integerValue] andMonth:1];//确保可以选到31日
     
     NSInteger hourNum = _hourArray.count;
     NSInteger minuteNUm = _minuteArray.count;
@@ -385,10 +388,7 @@ typedef void(^doneBlock)(NSDate *);
     }
     
     customLabel.text = title;
-    if (!_datePickerColor) {
-        _datePickerColor = [UIColor blackColor];
-    }
-    customLabel.textColor = _datePickerColor;
+    customLabel.textColor = UIColor.blueColor;
     return customLabel;
     
 }
@@ -408,8 +408,8 @@ typedef void(^doneBlock)(NSDate *);
                 dayIndex = row;
             }
             if (component == 0 || component == 1){
-                [self DaysfromYear:[_yearArray[yearIndex] integerValue] andMonth:[_monthArray[monthIndex] integerValue]];
-                if (_dayArray.count-1<dayIndex) {
+                [self daysfromYear:[_yearArray[yearIndex] integerValue] andMonth:[_monthArray[monthIndex] integerValue]];
+                if (_dayArray.count-1 < dayIndex) {
                     dayIndex = _dayArray.count-1;
                 }
             }
@@ -432,12 +432,12 @@ typedef void(^doneBlock)(NSDate *);
             }
             if (component == 0) {
                 [self yearChange:row];
-                [self DaysfromYear:[_yearArray[yearIndex] integerValue] andMonth:[_monthArray[monthIndex] integerValue]];
+                [self daysfromYear:[_yearArray[yearIndex] integerValue] andMonth:[_monthArray[monthIndex] integerValue]];
                 if (_dayArray.count-1<dayIndex) {
                     dayIndex = _dayArray.count-1;
                 }
             }
-            [self DaysfromYear:[_yearArray[yearIndex] integerValue] andMonth:[_monthArray[monthIndex] integerValue]];
+            [self daysfromYear:[_yearArray[yearIndex] integerValue] andMonth:[_monthArray[monthIndex] integerValue]];
         }
             break;
         case DateStyleShowHourMinute:{
@@ -576,7 +576,7 @@ typedef void(^doneBlock)(NSDate *);
 
 #pragma mark - tools
 //通过年月求每月天数
-- (NSInteger)DaysfromYear:(NSInteger)year andMonth:(NSInteger)month
+- (NSInteger)daysfromYear:(NSInteger)year andMonth:(NSInteger)month
 {
     NSInteger num_year  = year;
     NSInteger num_month = month;
@@ -615,6 +615,17 @@ typedef void(^doneBlock)(NSDate *);
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
 //滚动到指定的时间位置
 - (void)getNowDate:(NSDate *)date animated:(BOOL)animated
 {
@@ -622,7 +633,7 @@ typedef void(^doneBlock)(NSDate *);
         date = [NSDate date];
     }
     
-    [self DaysfromYear:date.year andMonth:date.month];
+    [self daysfromYear:date.year andMonth:date.month];
     
     yearIndex = date.year-MINYEAR;
     monthIndex = date.month-1;
