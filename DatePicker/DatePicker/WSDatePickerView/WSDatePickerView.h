@@ -13,9 +13,7 @@
  *  弹出日期类型
  */
 typedef enum{
-    DateStyleShowYearMonthDayHourMinute  = 0,//年月日时分
-    DateStyleShowMonthDayHourMinute,//月日时分
-    DateStyleShowYearMonthDay,//年月日
+    DateStyleShowYearMonthDay = 0 ,//年月日
     DateStyleShowYearMonth,//年月
     DateStyleShowMonthDay,//月日
     DateStyleShowHourMinute,//时分
