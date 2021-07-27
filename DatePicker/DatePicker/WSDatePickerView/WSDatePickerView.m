@@ -47,11 +47,10 @@ typedef void(^doneBlock)(NSDate *);
     
 }
 @property (weak, nonatomic) IBOutlet UIView *buttomView;
-@property (weak, nonatomic) IBOutlet UILabel *showYearView;
-@property (weak, nonatomic) IBOutlet UIButton *doneBtn;
+
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomConstraint;
 
-- (IBAction)doneAction:(UIButton *)btn;
+
 
 
 @property (nonatomic,strong)UIPickerView *datePicker;
@@ -181,7 +180,7 @@ typedef void(^doneBlock)(NSDate *);
     
     [[UIApplication sharedApplication].keyWindow bringSubviewToFront:self];
     
-    [self.showYearView addSubview:self.datePicker];
+    [self.buttomView addSubview:self.datePicker];
     
 }
 
@@ -226,7 +225,7 @@ typedef void(^doneBlock)(NSDate *);
 }
 
 -(void)addLabelWithName:(NSArray *)nameArr {
-    for (id subView in self.showYearView.subviews) {
+    for (id subView in self.buttomView.subviews) {
         if ([subView isKindOfClass:[UILabel class]]) {
             [subView removeFromSuperview];
         }
@@ -238,20 +237,20 @@ typedef void(^doneBlock)(NSDate *);
     
     for (int i=0; i<nameArr.count; i++) {
         CGFloat labelX = kPickerSize.width/(nameArr.count*2)+18+kPickerSize.width/nameArr.count*i;
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(labelX, self.showYearView.frame.size.height/2-15/2.0, 15, 15)];
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(labelX, self.buttomView.frame.size.height/2-15/2.0, 15, 15)];
         label.text = nameArr[i];
         label.textAlignment = NSTextAlignmentCenter;
         label.font = [UIFont systemFontOfSize:14];
         label.textColor =  _dateLabelColor;
         label.backgroundColor = [UIColor clearColor];
-        [self.showYearView addSubview:label];
+        [self.buttomView addSubview:label];
     }
 }
 
 
 -(void)setDateLabelColor:(UIColor *)dateLabelColor {
     _dateLabelColor = dateLabelColor;
-    for (id subView in self.showYearView.subviews) {
+    for (id subView in self.buttomView.subviews) {
         if ([subView isKindOfClass:[UILabel class]]) {
             UILabel *label = subView;
             label.textColor = _dateLabelColor;
@@ -269,9 +268,7 @@ typedef void(^doneBlock)(NSDate *);
     return mutableArray;
 }
 
--(void)setYearLabelColor:(UIColor *)yearLabelColor {
-    self.showYearView.textColor = yearLabelColor;
-}
+
 
 #pragma mark - UIPickerViewDelegate,UIPickerViewDataSource
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
@@ -431,7 +428,6 @@ typedef void(^doneBlock)(NSDate *);
         case DateStyleShowYearMonthDay:{
             if (component == 0) {
                 yearIndex = row;
-                self.showYearView.text =_yearArray[yearIndex];
             }
             if (component == 1) {
                 monthIndex = row;
@@ -450,7 +446,6 @@ typedef void(^doneBlock)(NSDate *);
         case DateStyleShowYearMonth:{
             if (component == 0) {
                 yearIndex = row;
-                self.showYearView.text =_yearArray[yearIndex];
                 NSLog(@"yearIndex = %ld",row);
             }
             if (component == 1) {
@@ -485,7 +480,6 @@ typedef void(^doneBlock)(NSDate *);
         case DateStyleShowYear:{
             if (component == 0) {
                 yearIndex = row;
-                self.showYearView.text =_yearArray[yearIndex];
             }
         }
             break;
@@ -560,8 +554,6 @@ typedef void(^doneBlock)(NSDate *);
         NSInteger interval = (row-preRow)/12;
         yearIndex += interval;
     }
-    
-    self.showYearView.text = _yearArray[yearIndex];
     
     preRow = row;
 }
@@ -687,8 +679,7 @@ typedef void(^doneBlock)(NSDate *);
     if (self.datePickerStyle == DateStyleShowDayHourMinute)
         indexArray = @[@(dayIndex),@(hourIndex),@(minuteIndex)];
     
-    self.showYearView.text = _yearArray[yearIndex];
-    
+
     [self.datePicker reloadAllComponents];
     
     for (int i=0; i<indexArray.count; i++) {
@@ -706,8 +697,8 @@ typedef void(^doneBlock)(NSDate *);
 #pragma mark - getter / setter
 -(UIPickerView *)datePicker {
     if (!_datePicker) {
-        [self.showYearView layoutIfNeeded];
-        _datePicker = [[UIPickerView alloc] initWithFrame:self.showYearView.bounds];
+        [self.buttomView layoutIfNeeded];
+        _datePicker = [[UIPickerView alloc] initWithFrame:self.buttomView.bounds];
         _datePicker.showsSelectionIndicator = YES;
         _datePicker.delegate = self;
         _datePicker.dataSource = self;
@@ -725,12 +716,9 @@ typedef void(^doneBlock)(NSDate *);
 
 -(void)setDoneButtonColor:(UIColor *)doneButtonColor {
     _doneButtonColor = doneButtonColor;
-    self.doneBtn.backgroundColor = doneButtonColor;
+   
 }
 
--(void)setHideBackgroundYearLabel:(BOOL)hideBackgroundYearLabel {
-    _showYearView.textColor = [UIColor clearColor];
-}
 
 @end
 
