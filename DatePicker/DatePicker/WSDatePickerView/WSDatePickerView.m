@@ -224,28 +224,7 @@ typedef void(^doneBlock)(NSDate *);
     }
 }
 
--(void)addLabelWithName:(NSArray *)nameArr {
-    for (id subView in self.buttomView.subviews) {
-        if ([subView isKindOfClass:[UILabel class]]) {
-            [subView removeFromSuperview];
-        }
-    }
-    
-    if (!_dateLabelColor) {
-        _dateLabelColor =  RGB(247, 133, 51);
-    }
-    
-    for (int i=0; i<nameArr.count; i++) {
-        CGFloat labelX = kPickerSize.width/(nameArr.count*2)+18+kPickerSize.width/nameArr.count*i;
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(labelX, self.buttomView.frame.size.height/2-15/2.0, 15, 15)];
-        label.text = nameArr[i];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.font = [UIFont systemFontOfSize:14];
-        label.textColor =  _dateLabelColor;
-        label.backgroundColor = [UIColor clearColor];
-        [self.buttomView addSubview:label];
-    }
-}
+
 
 
 -(void)setDateLabelColor:(UIColor *)dateLabelColor {
@@ -275,25 +254,18 @@ typedef void(^doneBlock)(NSDate *);
 {
     switch (self.datePickerStyle) {
         case DateStyleShowYearMonthDay:
-            [self addLabelWithName:@[@"年",@"月",@"日"]];
             return 3;
         case DateStyleShowYearMonth:
-            [self addLabelWithName:@[@"年",@"月"]];
             return 2;
         case DateStyleShowMonthDay:
-            [self addLabelWithName:@[@"月",@"日"]];
             return 2;
         case DateStyleShowHourMinute:
-            [self addLabelWithName:@[@"时",@"分"]];
             return 2;
         case DateStyleShowYear:
-            [self addLabelWithName:@[@"年"]];
             return 1;
         case DateStyleShowMonth:
-            [self addLabelWithName:@[@"月"]];
             return 1;
         case DateStyleShowDayHourMinute:
-            [self addLabelWithName:@[@"日",@"时",@"分"]];
             return 3;
         default:
             return 0;
@@ -364,13 +336,13 @@ typedef void(^doneBlock)(NSDate *);
     switch (self.datePickerStyle) {
         case DateStyleShowYearMonthDay:
             if (component==0) {
-                title = _yearArray[row];
+                title = [ NSString stringWithFormat: @"%@年", _yearArray[row] ];
             }
             if (component==1) {
-                title = _monthArray[row];
+                title = [ NSString stringWithFormat: @"%@月", _monthArray[row] ];
             }
             if (component==2) {
-                title = _dayArray[row];
+                title = [ NSString stringWithFormat: @"%@日", _dayArray[row] ];
             }
             break;
         case DateStyleShowYearMonth:
