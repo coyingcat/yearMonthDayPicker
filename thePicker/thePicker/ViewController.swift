@@ -157,7 +157,9 @@ struct DayX {
     var dayInfo: [Int]
     
     
-    let cnt: Int
+    var cnt: Int{
+        dayInfo.count
+    }
     
     
     init() {
@@ -177,8 +179,6 @@ struct DayX {
         
         
         dayInfo = Array(minDay...31)
-        
-        cnt = dayInfo.count
     }
     
     
