@@ -154,7 +154,13 @@ struct DayX {
     
     
     
-    var dayInfo: [Int]
+    var dayInfo: [Int]!
+    
+    
+    
+    var jahr: Int
+    
+    var moon: Int
     
     
     var cnt: Int{
@@ -162,7 +168,16 @@ struct DayX {
     }
     
     
-    init() {
+    var final: Int{
+        dayNum(inMonth: moon, inYear: jahr)
+    }
+    
+    
+    init(jahr y: Int, month m: Int) {
+        jahr = y
+        moon = m
+        
+        
         
         minDay = {
             let formatter = DateFormatter()
@@ -178,7 +193,7 @@ struct DayX {
         
         
         
-        dayInfo = Array(minDay...31)
+        dayInfo = Array(minDay...final)
     }
     
     
@@ -194,24 +209,87 @@ struct DayX {
     
     
     
+    ///
+    
+    
+    
     mutating
-    func reset(){
+    func reset(month m: Int){
         
-        dayInfo = Array(1...31)
+        moon = m
+        dayInfo = Array(1...final)
+    }
+    
+    
+    mutating
+    func reset(jahr y: Int){
+        
+        jahr = y
+        dayInfo = Array(1...final)
+    }
+    
+    
+    mutating
+    func beCurrent(month m: Int){
+        moon = m
+        
+        
+        dayInfo = Array(minDay...final)
         
     }
     
     
     mutating
-    func beCurrent(){
+    func beCurrent(jahr y: Int){
         
-        dayInfo = Array(minDay...31)
+        jahr = y
+        
+        dayInfo = Array(minDay...final)
         
     }
+    
+    
+    ///
+    
+    
+    
+    func dayNum(inMonth m: Int, inYear y: Int) -> Int{
+        
+        var isrunNian = false
+        if y % 4 == 0{
+            if y % 100 == 0{
+                isrunNian = (y % 400 == 0)
+            }
+            else{
+                isrunNian = true
+            }
+        }
+        
+        switch m{
+        case 1, 3, 5, 7, 8, 10, 12:
+                return 31
+        case 4, 6, 9, 11:
+                return 30
+        default:
+                if isrunNian{
+                    return 29
+                }
+                else{
+                    return 28
+                }
+        }
+        
+    }
+    
+    
+    
 }
 
 
+//
 
+
+//
 
 
 class ViewController: UIViewController {
@@ -229,7 +307,7 @@ class ViewController: UIViewController {
     var monthInfo = MonthX()
     
 
-    var dayInfo = DayX()
+    lazy var dayInfo = DayX(jahr: yearInfo.minYEAR, month: monthInfo.minMonth)
     
     
     
@@ -301,10 +379,11 @@ extension ViewController: UIPickerViewDelegate{
             
             
             if row == 0, registerX.month == 0 {
-                dayInfo.beCurrent()
+                dayInfo.beCurrent(jahr: yearInfo[0].scalar)
+                
             }
             else{
-                dayInfo.reset()
+                dayInfo.reset(jahr: yearInfo[row].scalar)
             }
             
             
@@ -314,10 +393,10 @@ extension ViewController: UIPickerViewDelegate{
             registerX.month = row
             
             if registerX.year == 0, row == 0{
-                dayInfo.beCurrent()
+                dayInfo.beCurrent(month: monthInfo[0].scalar)
             }
             else{
-                dayInfo.reset()
+                dayInfo.reset(month: monthInfo[row].scalar)
             }
             
             pickerView.reloadComponent(2)
@@ -397,4 +476,16 @@ extension ViewController: UIPickerViewDataSource{
     
     
     
+}
+
+
+
+
+
+
+
+extension String{
+    var scalar: Int{
+        Int(self) ?? 0
+    }
 }
