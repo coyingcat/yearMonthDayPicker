@@ -300,10 +300,15 @@ extension ViewController: UIPickerViewDelegate{
             pickerView.reloadComponent(1)
             
             
+            if row == 0, registerX.month == 0 {
+                dayInfo.beCurrent()
+            }
+            else{
+                dayInfo.reset()
+            }
             
             
-            
-            
+            pickerView.reloadComponent(2)
             
         case 1:
             registerX.month = row
