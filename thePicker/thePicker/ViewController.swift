@@ -295,10 +295,27 @@ extension ViewController: UIPickerViewDelegate{
             else{
                 monthInfo.reset()
             }
+            
+            
             pickerView.reloadComponent(1)
+            
+            
+            
+            
+            
+            
             
         case 1:
             registerX.month = row
+            
+            if registerX.year == 0, row == 0{
+                dayInfo.beCurrent()
+            }
+            else{
+                dayInfo.reset()
+            }
+            
+            pickerView.reloadComponent(2)
             
         default:
             // 2
