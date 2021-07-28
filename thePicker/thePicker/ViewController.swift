@@ -65,6 +65,77 @@ struct YearX {
 
 
 
+struct MonthX {
+    
+    
+    let minMonth: Int
+    
+    
+    var monthInfo: [Int]
+    
+    
+    
+    var cnt: Int{
+        monthInfo.count
+    }
+    
+    
+    
+    init() {
+        
+        minMonth = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MM"
+            let time = formatter.string(from: Date())
+            if let t = Int(time){
+                return t
+            }
+            else{
+                return 7
+            }
+        }()
+        
+        
+        monthInfo = Array(minMonth...12)
+        
+    }
+    
+    
+    
+    
+    mutating
+    func reset(){
+        
+        monthInfo = Array(1...12)
+        
+    }
+    
+    
+    mutating
+    func beCurrent(){
+        
+        monthInfo = Array(minMonth...12)
+        
+    }
+    
+    
+    
+    subscript(idx: Int) -> String{
+        
+            guard idx >= 0 , idx < cnt else {
+                return "Nan"
+            }
+
+            return String(monthInfo[idx])
+        
+    }
+}
+
+
+
+
+
+
 
 
 
@@ -82,21 +153,8 @@ class ViewController: UIViewController {
     let yearInfo = YearX()
     
     
+    var monthInfo = MonthX()
     
-
-    var minMonth: Int{
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM"
-        let time = formatter.string(from: Date())
-        if let t = Int(time){
-            return t
-        }
-        else{
-            return 7
-        }
-    }
-
-
 
     var minDay: Int{
         let formatter = DateFormatter()
@@ -110,11 +168,7 @@ class ViewController: UIViewController {
         }
     }
     
-    
-    var monthInfo: [Int] = Array(1...12)
-    
-    
-    
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -169,11 +223,12 @@ extension ViewController: UIPickerViewDelegate{
         case 0:
             
             if row == 0{
-                
+                monthInfo.beCurrent()
             }
             else{
-                
+                monthInfo.reset()
             }
+            pickerView.reloadComponent(1)
             
         case 1:
             
@@ -221,7 +276,7 @@ extension ViewController: UIPickerViewDataSource{
         case 0:
             return yearInfo.cnt
         case 1:
-            return monthInfo.count
+            return monthInfo.cnt
         default:
             
             // 2
@@ -240,7 +295,7 @@ extension ViewController: UIPickerViewDataSource{
         case 0:
             return yearInfo[row]
         case 1:
-            return String(monthInfo[row])
+            return monthInfo[row]
         default:
             
             // 2
