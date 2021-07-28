@@ -63,6 +63,13 @@ struct YearX {
 
 
 
+struct IndexRegister {
+    var year = 0
+    var month = 0
+    var day = 0
+}
+
+
 
 
 struct MonthX {
@@ -79,6 +86,9 @@ struct MonthX {
         monthInfo.count
     }
     
+    
+    
+    var idxRegister = IndexRegister()
     
     
     init() {
@@ -137,6 +147,69 @@ struct MonthX {
 
 
 
+struct DayX {
+    
+    
+    let minDay: Int
+    
+    
+    
+    var dayInfo: [Int]
+    
+    
+    let cnt: Int
+    
+    
+    init() {
+        
+        minDay = {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd"
+            let time = formatter.string(from: Date())
+            if let t = Int(time){
+                return t
+            }
+            else{
+                return 28
+            }
+        }()
+        
+        
+        
+        dayInfo = Array(minDay...31)
+        
+        cnt = dayInfo.count
+    }
+    
+    
+    subscript(idx: Int) -> String{
+        
+            guard idx >= 0 , idx < cnt else {
+                return "Nan"
+            }
+
+            return String(dayInfo[idx])
+        
+    }
+    
+    
+    
+    mutating
+    func reset(){
+        
+        dayInfo = Array(1...31)
+        
+    }
+    
+    
+    mutating
+    func beCurrent(){
+        
+        dayInfo = Array(minDay...31)
+        
+    }
+}
+
 
 
 
@@ -156,19 +229,13 @@ class ViewController: UIViewController {
     var monthInfo = MonthX()
     
 
-    var minDay: Int{
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd"
-        let time = formatter.string(from: Date())
-        if let t = Int(time){
-            return t
-        }
-        else{
-            return 28
-        }
-    }
+    var dayInfo = DayX()
     
-
+    
+    
+    var registerX = IndexRegister()
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -221,7 +288,7 @@ extension ViewController: UIPickerViewDelegate{
         
         switch component {
         case 0:
-            
+            registerX.year = row
             if row == 0{
                 monthInfo.beCurrent()
             }
@@ -231,12 +298,12 @@ extension ViewController: UIPickerViewDelegate{
             pickerView.reloadComponent(1)
             
         case 1:
+            registerX.month = row
             
-            ()
         default:
             // 2
-        
-            ()
+            registerX.day = row
+            
         }
         
         
@@ -280,7 +347,7 @@ extension ViewController: UIPickerViewDataSource{
         default:
             
             // 2
-            return 10
+            return dayInfo.cnt
         }
         
     }
@@ -299,7 +366,7 @@ extension ViewController: UIPickerViewDataSource{
         default:
             
             // 2
-            return "哈    哈"
+            return dayInfo[row]
         }
         
     }
