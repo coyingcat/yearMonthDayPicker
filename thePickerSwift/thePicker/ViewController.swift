@@ -241,7 +241,7 @@ struct DayX {
         jahr = y
         moon = m
 
-        dayInfo = Array(1...final)
+        dayInfo = Array(minDay...final)
         
     }
     
