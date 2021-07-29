@@ -87,11 +87,7 @@ struct MonthX {
     }
     
     
-    
-    var idxRegister = IndexRegister()
-    
-    
-    init() {
+    init(){
         
         minMonth = {
             let formatter = DateFormatter()
@@ -363,10 +359,12 @@ extension ViewController: UIPickerViewDelegate{
     
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
-        
+
         switch component {
         case 0:
+            
+            // 修改年，把月也给改了
+            
             registerX.year = row
             pickerView.reloadComponent(0)
             if row == 0{
@@ -381,15 +379,15 @@ extension ViewController: UIPickerViewDelegate{
             pickerView.reloadComponent(1)
             
             
-            if row == 0, registerX.month == 0 {
+            if row == 0{
                 dayInfo.beCurrent(jahr: yearInfo[0].scalar)
-                registerX.day = min(dayInfo.cnt - 1, registerX.day)
+                dayInfo.beCurrent(month: monthInfo[registerX.month].scalar)
             }
             else{
                 dayInfo.reset(jahr: yearInfo[row].scalar)
             }
             
-            
+            registerX.day = min(dayInfo.cnt - 1, registerX.day) // 为了闰年
             pickerView.reloadComponent(2)
             
         case 1:
@@ -397,12 +395,11 @@ extension ViewController: UIPickerViewDelegate{
             pickerView.reloadComponent(1)
             if registerX.year == 0, row == 0{
                 dayInfo.beCurrent(month: monthInfo[0].scalar)
-                registerX.day = min(dayInfo.cnt - 1, registerX.day)
             }
             else{
                 dayInfo.reset(month: monthInfo[row].scalar)
             }
-            
+            registerX.day = min(dayInfo.cnt - 1, registerX.day)
             pickerView.reloadComponent(2)
             
         default:
