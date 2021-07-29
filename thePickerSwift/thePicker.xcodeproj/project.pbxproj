@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2612271626B23BA800612FD1 /* ColorAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2612271426B23BA800612FD1 /* ColorAdd.swift */; };
+		2612271726B23BA800612FD1 /* FontAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2612271526B23BA800612FD1 /* FontAdd.swift */; };
 		268926EC26B0E6D6006533CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268926EB26B0E6D6006533CA /* AppDelegate.swift */; };
 		268926EE26B0E6D6006533CA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268926ED26B0E6D6006533CA /* SceneDelegate.swift */; };
 		268926F026B0E6D6006533CA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268926EF26B0E6D6006533CA /* ViewController.swift */; };
@@ -16,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2612271426B23BA800612FD1 /* ColorAdd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorAdd.swift; sourceTree = "<group>"; };
+		2612271526B23BA800612FD1 /* FontAdd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontAdd.swift; sourceTree = "<group>"; };
 		268926E826B0E6D6006533CA /* thePicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = thePicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		268926EB26B0E6D6006533CA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		268926ED26B0E6D6006533CA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -37,6 +41,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2612271326B23BA800612FD1 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				2612271426B23BA800612FD1 /* ColorAdd.swift */,
+				2612271526B23BA800612FD1 /* FontAdd.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		268926DF26B0E6D6006533CA = {
 			isa = PBXGroup;
 			children = (
@@ -56,6 +69,7 @@
 		268926EA26B0E6D6006533CA /* thePicker */ = {
 			isa = PBXGroup;
 			children = (
+				2612271326B23BA800612FD1 /* Util */,
 				268926EB26B0E6D6006533CA /* AppDelegate.swift */,
 				268926ED26B0E6D6006533CA /* SceneDelegate.swift */,
 				268926EF26B0E6D6006533CA /* ViewController.swift */,
@@ -138,6 +152,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				268926F026B0E6D6006533CA /* ViewController.swift in Sources */,
+				2612271726B23BA800612FD1 /* FontAdd.swift in Sources */,
+				2612271626B23BA800612FD1 /* ColorAdd.swift in Sources */,
 				268926EC26B0E6D6006533CA /* AppDelegate.swift in Sources */,
 				268926EE26B0E6D6006533CA /* SceneDelegate.swift in Sources */,
 			);

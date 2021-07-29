@@ -321,9 +321,10 @@ class ViewController: UIViewController {
         
         
         view.backgroundColor = UIColor.white
-        picker.backgroundColor = UIColor.systemPink
+       // picker.backgroundColor = UIColor.systemPink
         
-        
+        picker.layer.borderWidth = 2
+        picker.layer.borderColor = UIColor.systemPink.cgColor
         
         
         picker.delegate = self
@@ -367,8 +368,10 @@ extension ViewController: UIPickerViewDelegate{
         switch component {
         case 0:
             registerX.year = row
+            pickerView.reloadComponent(0)
             if row == 0{
                 monthInfo.beCurrent()
+                registerX.month = min(monthInfo.cnt - 1, registerX.month)
             }
             else{
                 monthInfo.reset()
@@ -380,7 +383,7 @@ extension ViewController: UIPickerViewDelegate{
             
             if row == 0, registerX.month == 0 {
                 dayInfo.beCurrent(jahr: yearInfo[0].scalar)
-                
+                registerX.day = min(dayInfo.cnt - 1, registerX.day)
             }
             else{
                 dayInfo.reset(jahr: yearInfo[row].scalar)
@@ -391,9 +394,10 @@ extension ViewController: UIPickerViewDelegate{
             
         case 1:
             registerX.month = row
-            
+            pickerView.reloadComponent(1)
             if registerX.year == 0, row == 0{
                 dayInfo.beCurrent(month: monthInfo[0].scalar)
+                registerX.day = min(dayInfo.cnt - 1, registerX.day)
             }
             else{
                 dayInfo.reset(month: monthInfo[row].scalar)
@@ -404,7 +408,7 @@ extension ViewController: UIPickerViewDelegate{
         default:
             // 2
             registerX.day = row
-            
+            pickerView.reloadComponent(2)
         }
         
         
@@ -456,20 +460,40 @@ extension ViewController: UIPickerViewDataSource{
     
     
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        
-        
+    
+    
+    
+    
+    
+    
+    
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         switch component {
         case 0:
-            return yearInfo[row]
+            if row == registerX.year{
+                return yearInfo[row].selected
+            }
+            else{
+                return yearInfo[row].normal
+            }
+            
         case 1:
-            return monthInfo[row]
+            if row == registerX.month{
+                return monthInfo[row].selected
+            }
+            else{
+                return monthInfo[row].normal
+            }
         default:
             
             // 2
-            return dayInfo[row]
+            if row == registerX.day{
+                return dayInfo[row].selected
+            }
+            else{
+                return dayInfo[row].normal
+            }
         }
-        
     }
     
     
@@ -484,8 +508,27 @@ extension ViewController: UIPickerViewDataSource{
 
 
 
+
 extension String{
     var scalar: Int{
         Int(self) ?? 0
     }
+    
+    
+    
+    var selected: NSAttributedString{
+        
+        NSAttributedString(string: self, attributes: [NSAttributedString.Key.font: UIFont.semibold(ofSize: 16) , NSAttributedString.Key.foregroundColor: UIColor(rgb: 0x1A1B1C)])
+        
+    }
+    
+    
+    
+    var normal: NSAttributedString{
+        
+        NSAttributedString(string: self, attributes: [NSAttributedString.Key.font: UIFont.regular(ofSize: 16) , NSAttributedString.Key.foregroundColor: UIColor(rgb: 0xC3C3C3)])
+        
+    }
+    
+    
 }
