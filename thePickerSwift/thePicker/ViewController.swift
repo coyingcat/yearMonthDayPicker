@@ -218,9 +218,10 @@ struct DayX {
     
     
     mutating
-    func reset(jahr y: Int){
-        
+    func reset(jahr y: Int, month m: Int){
         jahr = y
+        moon = m
+        
         dayInfo = Array(1...final)
     }
     
@@ -236,11 +237,11 @@ struct DayX {
     
     
     mutating
-    func beCurrent(jahr y: Int){
-        
+    func beCurrent(jahr y: Int, month m: Int){
         jahr = y
-        
-        dayInfo = Array(minDay...final)
+        moon = m
+
+        dayInfo = Array(1...final)
         
     }
     
@@ -369,22 +370,22 @@ extension ViewController: UIPickerViewDelegate{
             pickerView.reloadComponent(0)
             if row == 0{
                 monthInfo.beCurrent()
-                registerX.month = min(monthInfo.cnt - 1, registerX.month)
             }
             else{
                 monthInfo.reset()
             }
             
-            
+            registerX.month = min(monthInfo.cnt - 1, registerX.month)
             pickerView.reloadComponent(1)
             
             
-            if row == 0{
-                dayInfo.beCurrent(jahr: yearInfo[0].scalar)
-                dayInfo.beCurrent(month: monthInfo[registerX.month].scalar)
+            let lunar = monthInfo[registerX.month].scalar
+            
+            if row == 0, registerX.month == 0{
+                dayInfo.beCurrent(jahr: yearInfo[0].scalar, month: lunar)
             }
             else{
-                dayInfo.reset(jahr: yearInfo[row].scalar)
+                dayInfo.reset(jahr: yearInfo[row].scalar, month: lunar)
             }
             
             registerX.day = min(dayInfo.cnt - 1, registerX.day) // 为了闰年
